@@ -78,7 +78,16 @@ def calculate_surplus_data(sales_row):
     '''In this case stock with square brackets giving it the list index of -1. This will slice the final item from the list and
     return it to the new stock variable.'''
     stock_row = stock[-1]
-    pprint(stock_row)
+    
+    '''Create somewhere to put the surplus no. data'''
+    surplus_data=[]
+
+    '''Loop through the two rows of data, perform the calculation then append
+        them to the suplus sheet'''
+    for stock, sales in zip(stock_row, sales_row):
+        surplus = int(stock) - sales
+        surplus_data.append(surplus)
+    print(surplus_data)
 
 def main():
     '''
