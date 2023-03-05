@@ -14,18 +14,21 @@ SHEET = GSPREAD_CLIENT.open('love_sandwiches')
 
 def get_sales_data():
     '''
-    Get sales figures input from the user
+    Get sales figures input from the user & loop until correct data is given
     '''
-    print('Please enter sales data from the last market.')
-    print('Data should be six numbers, separated by commas.')
-    print('Example: 10,20,30,40,50,60\n')
+    while True:
+        print('Please enter sales data from the last market.')
+        print('Data should be six numbers, separated by commas.')
+        print('Example: 10,20,30,40,50,60\n')
 
-    data_str = input('Enter your data here:')
-    '''The split() method returns the broken up values as a list and remove the commas from the string'''
-    sales_data = data_str.split(",")
-    '''call validate data function passing it the sales_data variable'''
-    validate_data(sales_data)
-
+        data_str = input('Enter your data here:')
+        '''The split() method returns the broken up values as a list and remove the commas from the string'''
+        sales_data = data_str.split(",")
+        '''call validate data function passing it the sales_data variable'''
+        if validate_data(sales_data):
+            print('data is valid!')
+            break
+    return sales_data
 
 def validate_data(values):
     '''Validate the data inputed - values will be our sales data list'''
@@ -39,7 +42,8 @@ def validate_data(values):
             )
     except ValueError as e:
             print(f'Invalid data: {e}, please try again.\n')
+            '''returns are based on the if condition inside the while loop above'''
+            return False
+    return True
 
-
-
-get_sales_data()
+data = get_sales_data()
