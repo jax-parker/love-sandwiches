@@ -50,35 +50,16 @@ def validate_data(values):
             return False
     return True
 
-def update_sales_worksheet(data):
+def update_worksheet(data, worksheet):
     '''
-    Update sales worksheet, add new row with the list data provided
+    Recieves a list of integers to be inserted into a worksheet
+    Update the relevant worksheet with the data provided
     '''
-    print('Updating sales worksheet...\n')
-    '''Now we need to access our sales  worksheet from our Google Sheet  
-    so that we can add our data to it using the gspread method to access
-    the worksheet'''
-    sales_worksheet = SHEET.worksheet('sales')
-    '''The append_row method adds a new row to the  end of our
-    data in the worksheet selected.  '''
-    sales_worksheet.append_row(data)
 
-    print('Sales Worksheet updated successfully.\n')
-
-def update_surplus_worksheet(data):
-    '''
-    Update surplus worksheet, add new row with the calculated list
-    '''
-    print('Updating surplus worksheet...\n')
-    '''Now we need to access our surplus worksheet from our Google Sheet  
-    so that we can add our data to it using the gspread method to access
-    the worksheet'''
-    surplus_worksheet = SHEET.worksheet('surplus')
-    '''The append_row method adds a new row to the  end of our
-    data in the worksheet selected.  '''
-    surplus_worksheet.append_row(data)
-
-    print('Surplus Worksheet updated successfully.\n')
+    print(f'Updating {worksheet} worksheet...\n')
+    worksheet_to_update = SHEET.worksheet(worksheet)
+    worksheet_to_update.append_row(data)
+    print(f'{worksheet} worksheet updated successfully\n')
 
 def calculate_surplus_data(sales_row):
     '''
@@ -113,11 +94,11 @@ def main():
     '''new list comprehension'''
     sales_data = [int(num) for num in data]
     '''Call our function and pass it our sales_data list'''
-    update_sales_worksheet(sales_data)
+    update_worksheet(sales_data, 'sales')
     '''Call function and pass in our sales data variable '''
     new_surplus_data = calculate_surplus_data(sales_data)
     '''Call function and pass it our surplus data'''
-    update_surplus_worksheet(new_surplus_data)
+    update_worksheet(new_surplus_data,'surplus')
 
 print('Welcome to Love Sandwiches Data Automation')
 main()
