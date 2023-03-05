@@ -65,6 +65,21 @@ def update_sales_worksheet(data):
 
     print('Sales Worksheet updated successfully.\n')
 
+def update_surplus_worksheet(data):
+    '''
+    Update surplus worksheet, add new row with the calculated list
+    '''
+    print('Updating surplus worksheet...\n')
+    '''Now we need to access our surplus worksheet from our Google Sheet  
+    so that we can add our data to it using the gspread method to access
+    the worksheet'''
+    surplus_worksheet = SHEET.worksheet('surplus')
+    '''The append_row method adds a new row to the  end of our
+    data in the worksheet selected.  '''
+    surplus_worksheet.append_row(data)
+
+    print('Surplus Worksheet updated successfully.\n')
+
 def calculate_surplus_data(sales_row):
     '''
     Compare sales with stock and calculate the surplus for each item type.
@@ -87,7 +102,7 @@ def calculate_surplus_data(sales_row):
     for stock, sales in zip(stock_row, sales_row):
         surplus = int(stock) - sales
         surplus_data.append(surplus)
-    print(surplus_data)
+    return surplus_data
 
 def main():
     '''
@@ -100,7 +115,9 @@ def main():
     '''Call our function and pass it our sales_data list'''
     update_sales_worksheet(sales_data)
     '''Call function and pass in our sales data variable '''
-    calculate_surplus_data(sales_data)
+    new_surplus_data = calculate_surplus_data(sales_data)
+    '''Call function and pass it our surplus data'''
+    update_surplus_worksheet(new_surplus_data)
 
 print('Welcome to Love Sandwiches Data Automation')
 main()
